@@ -1,0 +1,12 @@
+---
+title: 'Class06: R Functions'
+author: "Khoi Tran"
+date: "April 18, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr:
+
+## R Markdown
+
