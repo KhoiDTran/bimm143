@@ -2,6 +2,7 @@
 #' title: "Class 05 Bimm 143"
 #' author: "Khoi Tran"
 #' date: "April 16, 2019"
+#' output: github_document
 #' ---
 #Class 5 R graphics
 
