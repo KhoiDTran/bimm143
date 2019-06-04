@@ -2,7 +2,7 @@
 
 This is my classwork from [BIMM143 Sping 2019](https://bioboot.github.io/bimm143_S19/) UCSD.
 
--Class 05: [Data Exploration and Visualization in R](Class05/Class05.md)  
+-Class 05: [Data Exploration and Visualization in R](https://github.com/KhoiDTran/bimm143/blob/master/Class05/Class05.md)  
 
 -Class 06: [Writing Functions in R]()  
 
