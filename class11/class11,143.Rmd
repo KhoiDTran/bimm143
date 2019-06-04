@@ -1,0 +1,64 @@
+---
+title: "Untitled"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+db <- read.csv("Data Export Summary.csv")
+```
+```{r}
+(db$Total/sum(db$Total))*100
+```
+```{r}
+sum((db$Total/sum(db$Total)))*100
+```
+```{r}
+library(datapasta)
+tmp <- data.frame(stringsAsFactors=FALSE,
+                      Experimental.Method = c("X-Ray", "NMR", "Electron Microscopy", "Other",
+                                              "Multi Method", "Total"),
+                                 Proteins = c(126880, 11062, 2277, 256, 129, 140604),
+                            Nucleic.Acids = c(2012, 1279, 31, 4, 5, 3331),
+                       ProteinComplex = c(6547, 259, 800, 6, 2, 7614)
+                   )
+```
+
+```{r}
+#There are 1157 Structures for HIV Protease
+"http://www.rcsb.org/pdb/results/results.do?tabtoshow=Current&qrid=54364206"
+```
+
+```{r}
+library(bio3d)
+pdb <- read.pdb("1hsg.pdb")
+pdb
+attributes(pdb)
+head(pdb$atom)
+```
+
+```{r}
+str(pdb$atom)
+pdb$atom$resid
+```
+
+```{r}
+prot.pdb <-atom.select(pdb,"protein", value = TRUE)
+write.pdb(prot.pdb, file="1hsg_protien.pdb")
+```
+
+```{r}
+lig.pdb <-atom.select(pdb,"ligand", value = TRUE)
+write.pdb(lig.pdb, file="1hsg_ligand.pdb")
+```
+
+```{r}
+ids <- c("1TND_B","1AGR_A","1TAG_A","1GG2_A","1KJY_A","4G5Q_A")
+files <- get.pdb(ids, split = TRUE)
+
+```
+
+

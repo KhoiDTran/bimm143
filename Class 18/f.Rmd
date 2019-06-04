@@ -1,0 +1,68 @@
+---
+title: "Class14"
+author: "Khoi Tran"
+date: "May 30, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(GenomicDataCommons)
+library(maftools)
+library(TCGAbiolinks)
+```
+
+```{r}
+GenomicDataCommons::status()
+```
+
+```{r}
+cases_by_project <- cases() %>%
+  facet("project.project_id") %>%
+  aggregations()
+head(cases_by_project)
+```
+
+```{r}
+cases_by_project
+```
+
+```{r}
+x$"TCGA-PAAD"
+```
+
+```{r}
+x <- cases_by_project$project.project_id
+colvec <- rep("lightgreen", nrow(x))
+colvec[29] <- "purple"
+barplot(x$doc_count, names.arg = x$key , log = "y", col=colvec, las=2)
+```
+
+```{r}
+library(msa)
+library(bio3d)
+Sequence.cancer <- read.fasta("lecture18_sequences.fa")
+
+```
+
+```{r}
+ide <- conserv(Sequence.cancer, method = "identity")
+missmatch <- which(ide < 1)
+gaps <- gap.inspect(Sequence.cancer)$t.inds
+tumor.sites <- missmatch[!missmatch %in% gaps]
+gaps
+```
+
+```{r}
+end.position <- tumor.sites + 8
+start.position <- tumor.sites - 8
+```
+
+```{r}
+for(y in 1:length(tumor.sites))Sequence.cancer$ali[2,start.position[y] : end.position[y]]
+
+```
+

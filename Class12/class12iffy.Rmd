@@ -1,0 +1,41 @@
+---
+title: "Class 12"
+author: "Khoi Tran"
+date: "May 9, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(bio3d)
+file <- get.pdb("1hsg.pdb")
+pdb <- read.pdb(file)
+```
+
+```{r}
+prot <- atom.select(pdb, "protein", value = TRUE )
+lig <- atom.select(pdb, "ligand", value = TRUE)
+```
+```{r}
+write.pdb(lig, file="1hsg_ligand.pdb")
+write.pdb(prot, file="1hsg_protein.pdb")
+```
+```{r}
+res <- read.pdb("ligand_out.pdbqt", multi = TRUE)
+write.pdb(res, "results.pdb")
+```
+
+```{r}
+ori <- read.pdb("ligand.pdbqt")
+rmsd(ori, res)
+```
+
+```{r}
+pdb <- read.pdb("1hel")
+modes <- nma( pdb )
+m7 <- mktrj(modes, mode=7, file="mode_7.pdb")
+```
+

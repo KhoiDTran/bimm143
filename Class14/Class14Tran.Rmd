@@ -1,0 +1,174 @@
+---
+title: "Class14"
+author: "Khoi Tran"
+date: "May 16, 2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+counts <- read.csv("airway_scaledcounts.csv", stringsAsFactors = FALSE, row.names = 1)
+metadata <-  read.csv("airway_metadata.csv", stringsAsFactors = FALSE)
+```
+
+# of genes
+```{r}
+nrow(counts)
+```
+
+Check if correspondence of out colData col and our meta data rows are the same
+```{r}
+colnames(counts)
+metadata$id
+```
+```{r}
+(colnames(counts) == metadata$id)
+```
+
+```{r}
+head(counts)
+head(metadata)
+```
+
+```{r}
+control.inds <- metadata[,"dex"]=="control"
+control <- metadata[metadata[,"dex"]=="control",]
+control
+
+```
+Lining up Meta Data and Scaled Data
+```{r}
+head(counts[,control$id])
+control.mean <- rowSums(counts[,control$id]) / length(control$id)
+```
+
+```{r}
+treated <- metadata[metadata[,"dex"]=="treated",]
+treated.mean <- rowSums(counts[,treated$id]) / length(treated$id)
+```
+
+```{r}
+meancounts <- data.frame(control.mean, treated.mean)
+colSums(meancounts)
+plot(meancounts)
+```
+ 
+Log Scale of Graph
+```{r}
+plot(meancounts, log="xy")
+```
+
+```{r}
+meancounts$log2fc <- log2(meancounts[,"treated.mean"]/meancounts[,"control.mean"])
+head(meancounts)
+```
+Removing 0 values
+```{r}
+to.rm <- unique(which(meancounts[,1:2] == 0, arr.ind = TRUE)[,1])
+```
+
+```{r}
+mycounts <- meancounts[-to.rm,]
+nrow(mycounts)
+```
+
+How many genes are up regulated
+```{r}
+up.inds <- mycounts$log2fc > 2
+sum(up.inds)
+```
+
+How many genes are down regulated
+```{r}
+down.inds <- mycounts$log2fc < -2
+sum(down.inds)
+```
+
+Finding Gene Name and Function (Annotating Data)
+```{r}
+anno <- read.csv("annotables_grch38.csv")
+head(mycounts[up.inds,])
+head(anno)
+```
+
+Using Merge to add the annotation data to RNA seq data
+```{r}
+merge(mycounts,anno, by.x = "row.names", by.y = "ensgene")
+```
+
+Getting Databases
+```{r}
+library("AnnotationDbi")
+library("org.Hs.eg.db")
+```
+```{r}
+columns(org.Hs.eg.db)
+```
+
+Using mapIds:
+ENSEMBL is the format of gene names
+```{r}
+mycounts$symbols <- mapIds(org.Hs.eg.db, keys = row.names(mycounts), keytype = "ENSEMBL", column = "SYMBOL")
+head(mycounts)
+```
+
+```{r}
+mycounts$entrez <- mapIds(org.Hs.eg.db, keys = row.names(mycounts), keytype = "ENSEMBL", column = "ENTREZID")
+head(mycounts)
+```
+
+Using DeSeq2
+```{r}
+library(DESeq2)
+counts2 <- read.csv("airway_scaledcounts.csv", stringsAsFactors = FALSE)
+dds <- DESeqDataSetFromMatrix(countData=counts2, 
+                              colData=metadata, 
+                              design=~dex, 
+                              tidy=TRUE)
+dds
+```
+
+```{r}
+dds <- DESeq(dds)
+res <- results(dds)
+summary(res)
+res05 <- results(dds, alpha = 0.05)
+summary(res05)
+```
+
+```{r}
+res01 <- as.data.frame(results(dds, alpha = 0.01))
+head(res01)
+```
+
+Ordering Results
+```{r}
+ord.inds <- order( res01$padj )
+head(res01[ord.inds,])
+write.csv( res01[ord.inds,], file = "signif01_results.csv")
+```
+
+Volcano Plot
+```{r}
+plot(res01$log2FoldChange, res01$padj)
+plot(res01$log2FoldChange, -log(res01$padj))
+```
+
+```{r}
+mycols <- rep("orange", nrow(res01))
+mycols[res01$padj < 0.01] <- "red"
+mycols[ abs(res01$log2FoldChange) > 2] <- "blue"
+mycols[(res01$padj< 0.01) & abs(res01$log2FoldChange) > 2] <- "green"
+plot(res01$log2FoldChange, -log(res01$padj), 
+     xlab = "Drug/Control (-log)",
+     ylab = "P-value (-log)",
+     col = mycols)
+```
+
+
+
+
+

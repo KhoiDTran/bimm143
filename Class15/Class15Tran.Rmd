@@ -1,0 +1,142 @@
+---
+title: "class15"
+author: "Khoi Tran"
+date: "May 21, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(DESeq2)
+library("AnnotationDbi")
+library("org.Hs.eg.db")
+metaFile <- "GSE37704_metadata.csv"
+countFile <- "GSE37704_featurecounts.csv"
+```
+
+```{r}
+# Import metadata and take a peak
+colData = read.csv(metaFile, row.names=1)
+head(colData)
+# Import countdata
+countData = read.csv(countFile, row.names=1)
+head(countData)
+```
+
+```{r}
+#Removing the off First Length
+countData <- as.matrix(countData[,-1])
+head(countData)
+```
+
+```{r}
+Test <- subset(countData,rowSums(countData) != 0 )
+nrow(Test)
+```
+
+```{r}
+nonzero.rows <- rowSums(countData) != 0
+countData <- countData[nonzero.rows,]
+nrow(countData)
+
+```
+
+```{r}
+dds = DESeqDataSetFromMatrix(countData = countData,
+                             colData = colData,
+                             design = ~condition)
+dds = DESeq(dds)
+```
+
+```{r}
+res <- results(dds)
+summary(res)
+```
+
+```{r}
+mycols <- rep("orange", nrow(res))
+mycols[res$padj < 0.01] <- "red"
+mycols[ abs(res$log2FoldChange) > 2] <- "blue"
+mycols[(res$padj< 0.01) & abs(res$log2FoldChange) > 2] <- "green"
+plot(res$log2FoldChange, -log(res$padj), 
+     xlab = "Shadowverse (-log)",
+     ylab = "Minecraft (-log)",
+     col = mycols)
+abline(v=c(-2,2), col = "black", lty =2, lwd =2)
+abline(h=-log(.01), col = "black", lty = 2, lwd = 2)
+```
+
+```{r}
+#Add Annotation
+columns(org.Hs.eg.db)
+res$symbol = mapIds(org.Hs.eg.db,
+                    keys= row.names(res), 
+                    keytype="ENSEMBL",
+                    column="SYMBOL",
+                    multiVals="first")
+
+res$entrez = mapIds(org.Hs.eg.db,
+                    keys=row.names(res),
+                    keytype="ENSEMBL",
+                    column="ENTREZID",
+                    multiVals="first")
+
+res$name =   mapIds(org.Hs.eg.db,
+                    keys=row.names(res),
+                    keytype="ENSEMBL",
+                    column="GENENAME",
+                    multiVals="first")
+
+head(res, 10)
+```
+
+```{r}
+res = res[order(res$pvalue),]
+write.csv(res, file= "deseq_results.csv")
+```
+
+```{r}
+library(pathview)
+library(gage)
+library(gageData)
+```
+
+```{r}
+data(kegg.sets.hs)
+data(sigmet.idx.hs)
+
+# Focus on signaling and metabolic pathways only
+kegg.sets.hs = kegg.sets.hs[sigmet.idx.hs]
+
+# Examine the first 3 pathways
+head(kegg.sets.hs, 3)
+```
+
+```{r}
+foldchanges = res$log2FoldChange
+names(foldchanges) = res$entrez
+head(foldchanges)
+```
+
+```{r}
+# Get the results
+keggres = gage(foldchanges, gsets=kegg.sets.hs)
+attributes(keggres)
+```
+
+```{r}
+head(keggres$less)
+```
+
+```{r}
+pathview(gene.data=foldchanges, pathway.id="hsa04110")
+# A different PDF based output of the same data
+pathview(gene.data=foldchanges, pathway.id="hsa04110", kegg.native=FALSE)
+
+```
+!(hsa04110.pathview.png)
+
+
