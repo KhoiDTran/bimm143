@@ -2,7 +2,7 @@
 title: "Class 12"
 author: "Khoi Tran"
 date: "May 9, 2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -20,8 +20,8 @@ prot <- atom.select(pdb, "protein", value = TRUE )
 lig <- atom.select(pdb, "ligand", value = TRUE)
 ```
 ```{r}
-write.pdb(lig, file="1hsg_ligand.pdb")
-write.pdb(prot, file="1hsg_protein.pdb")
+#write.pdb(lig, file="1hsg_ligand.pdb")
+#write.pdb(prot, file="1hsg_protein.pdb")
 ```
 ```{r}
 res <- read.pdb("ligand_out.pdbqt", multi = TRUE)

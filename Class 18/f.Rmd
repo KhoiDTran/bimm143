@@ -2,7 +2,7 @@
 title: "Class14"
 author: "Khoi Tran"
 date: "May 30, 2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -31,7 +31,7 @@ cases_by_project
 ```
 
 ```{r}
-x$"TCGA-PAAD"
+#x$"TCGA-PAAD"
 ```
 
 ```{r}
