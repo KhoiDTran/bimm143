@@ -2,7 +2,7 @@
 
 This is my classwork from [BIMM143 Sping 2019](https://bioboot.github.io/bimm143_S19/) UCSD.
 
--Class 05: [R Basics, Data Structures and Data Input](http://www.8020marketingguy.com/wp-content/uploads/2018/10/cat-videos.jpg)  
+-Class 05: [Data Exploration and Visualization in R](https://github.com/KhoiDTran/bimm143/blob/master/Class05/Class05.md)  
 
 -Class 06: R Graphics, Generating Plots with R  
 
