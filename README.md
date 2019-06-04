@@ -26,7 +26,7 @@ This is my classwork from [BIMM143 Sping 2019](https://bioboot.github.io/bimm143
 
 -Class 16: [Unix NA]()
 
--Class 17: [Biological Network Analysis]()  
+-Class 17: [Biological Network Analysis](https://github.com/KhoiDTran/bimm143/blob/master/Class17/Class.Rmd)  
 
 -Class 18: [Cancer Genomics](https://github.com/KhoiDTran/bimm143/blob/master/Class%2018/f.md)  
  
