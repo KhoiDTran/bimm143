@@ -4,30 +4,30 @@ This is my classwork from [BIMM143 Sping 2019](https://bioboot.github.io/bimm143
 
 -Class 05: [Data Exploration and Visualization in R](https://github.com/KhoiDTran/bimm143/blob/master/Class05/Class05.md)  
 
--Class 06: [Writing Functions in R]()  
+-Class 06: [Writing Functions in R](https://github.com/KhoiDTran/bimm143/blob/master/class06/ReportClass06.Rmd)  
 
--Class 07: [Bioinformatics R Packages]()  
+-Class 07: [Bioinformatics R Packages NA]()  
 
--Class 08: [Introduction to Machine Learning]()  
+-Class 08: [Introduction to Machine Learning](https://github.com/KhoiDTran/bimm143/blob/master/Class08/Class08InClass.md)  
 
--Class 09: [Unsupervised Learning]()  
+-Class 09: [Unsupervised Learning](https://github.com/KhoiDTran/bimm143/blob/master/Class09/Class09MiniProject.md)  
 
 -Class 10: [Github NA]()  
 
--Class 11: [Structural Bioinformatics]()  
+-Class 11: [Structural Bioinformatics](https://github.com/KhoiDTran/bimm143/blob/master/class11/class11%2C143.md)  
 
--Class 12: [Drug Discovery and Design]()  
+-Class 12: [Drug Discovery and Design](https://github.com/KhoiDTran/bimm143/blob/master/Class12/class12iffy.md)  
 
--Class 13: [Genome Informatics and High Throughput Sequencing]()
+-Class 13: [Genome Informatics and High Throughput Sequencing](https://github.com/KhoiDTran/bimm143/blob/master/Class13/Class13Work.md)
 
--Class 14: [Transcriptomics and RNA-Seq Data Analysis]()  
+-Class 14: [Transcriptomics and RNA-Seq Data Analysis](https://github.com/KhoiDTran/bimm143/blob/master/Class14/Class14Tran.md)  
 
--Class 15: [Genome Annotation and Gene List Interpretation]()
+-Class 15: [Genome Annotation and Gene List Interpretation](https://github.com/KhoiDTran/bimm143/blob/master/Class15/Class15Tran.md)
 
 -Class 16: [Unix NA]()
 
 -Class 17: [Biological Network Analysis]()  
 
--Class 18: [Cancer Genomics]()  
+-Class 18: [Cancer Genomics](https://github.com/KhoiDTran/bimm143/blob/master/Class%2018/f.md)  
  
 
